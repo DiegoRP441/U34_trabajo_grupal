@@ -1,6 +1,8 @@
 import numpy as np
 
 def leer_matriz():
+    print("INSTRUCCIONES:")
+    print("Introduce una matriz cuadrada de 2x2, 3x3")
     print("Introduce los elementos de la matriz fila por fila, separados por espacios.")
     print("Pulsa Enter después de cada fila. Escribe 'fin' para terminar.")
 
