@@ -38,19 +38,11 @@ def intercambiar_filas(matriz, fila1, fila2):
     matriz[[fila1, fila2]] = matriz[[fila2, fila1]]
     return matriz
 
-A = np.array([[1, 2, 3],
-              [4, 5, 6],
-              [7, 8, 9]])
-
-print("Antes del cambio:\n", A)
-intercambiar_filas(A, 0, 2)
-print("Después del cambio:\n", A)
 
 def multiplicar_fila_por_escalar(matriz, fila, escalar):
     matriz[fila] = matriz[fila] * escalar
     return matriz
 
-print(multiplicar_fila_por_escalar(A,1,2))
 
 def operar_filas(matriz, fila_destino, fila_origen, escalar):
     matriz[fila_destino] = matriz[fila_destino] + escalar * matriz[fila_origen]
