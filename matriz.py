@@ -35,5 +35,3 @@ def leer_matriz():
     print(matriz)
 
     return matriz
-
-leer_matriz()
