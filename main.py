@@ -8,7 +8,9 @@ from metodos_directos import (
     multiplicar_matrices,
     intercambiar_filas,
     multiplicar_fila_por_escalar,
-    operar_filas
+    operar_filas,
+    gauss_eliminacion,  # Importamos la función de Gauss
+    gauss_eliminacion_solo_matriz  # Importamos la función para forma escalonada
 )
 from metodos_iterativos import resolver_sistema_iterativo, mostrar_resultados_iterativos
 from metodos_no_lineales import (
@@ -24,6 +26,8 @@ def mostrar_menu_principal():
     print("2. Resolver sistema con métodos iterativos (Jacobi/Gauss-Seidel)")
     print("3. Resolver ecuación no lineal (Newton-Raphson)")
     print("4. Resolver sistema no lineal (Newton-Raphson)")
+    print("5. Resolver sistema lineal con eliminación de Gauss")  # Nueva opción
+    print("6. Transformar matriz en forma escalonada con eliminación de Gauss")  # Nueva opción
     print("0. Salir")
 
 def mostrar_menu_metodos_directos():
@@ -131,6 +135,40 @@ def main():
             if resultados[0] is not None:
                 sol, iteraciones, sol_hist, errores, expr_F = resultados
                 mostrar_resultados_newton_sistema(sol, iteraciones, sol_hist, errores, expr_F)
+        
+        elif opcion == "5":
+            # Resolver sistema lineal con eliminación de Gauss
+            print("Introduce la matriz de coeficientes:")
+            matriz = leer_matriz()
+            if matriz is None:
+                continue
+            print("Introduce el vector de términos independientes:")
+            vector = []
+            for i in range(matriz.shape[0]):
+                valor = float(input(f"Término independiente {i + 1}: "))
+                vector.append(valor)
+            vector = np.array(vector)
+
+            try:
+                solucion = gauss_eliminacion(matriz, vector)
+                print("Solución del sistema:")
+                print(solucion)
+            except ValueError as e:
+                print("Error:", e)
+        
+        elif opcion == "6":
+            # Transformar matriz en forma escalonada con eliminación de Gauss
+            print("Introduce la matriz de coeficientes:")
+            matriz = leer_matriz()
+            if matriz is None:
+                continue
+
+            try:
+                matriz_escalonada = gauss_eliminacion_solo_matriz(matriz)
+                print("Matriz transformada en forma escalonada:")
+                print(matriz_escalonada)
+            except ValueError as e:
+                print("Error:", e)
             
         elif opcion == "0":
             print("Saliendo del programa.")

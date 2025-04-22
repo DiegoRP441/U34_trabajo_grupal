@@ -73,3 +73,82 @@ def transpuesta_manual(matriz):
             resultado[j][i] = matriz[i][j]
     
     return resultado
+
+def gauss_eliminacion(matriz, vector):
+    """
+    Resuelve un sistema de ecuaciones lineales Ax = b usando eliminación de Gauss.
+    
+    Parámetros:
+    - matriz: Matriz de coeficientes (numpy array de tamaño n x n).
+    - vector: Vector de términos independientes (numpy array de tamaño n).
+    
+    Retorna:
+    - Un numpy array con la solución del sistema x.
+    """
+    n = len(vector)
+    A = np.array(matriz, dtype=float)
+    b = np.array(vector, dtype=float)
+
+    # Eliminación hacia adelante
+    for i in range(n):
+        # Verificar si el pivote es cero
+        if A[i, i] == 0:
+            raise ValueError("El sistema no tiene solución única (pivote cero).")
+        
+        # Normalizar la fila actual dividiendo por el pivote
+        for j in range(i + 1, n):
+            factor = A[j, i] / A[i, i]
+            A[j, i:] -= factor * A[i, i:]
+            b[j] -= factor * b[i]
+
+    # Sustitución hacia atrás
+    x = np.zeros(n)
+    for i in range(n - 1, -1, -1):
+        x[i] = (b[i] - np.dot(A[i, i + 1:], x[i + 1:])) / A[i, i]
+
+    return x
+
+def gauss_eliminacion_solo_matriz(matriz):
+    """
+    Aplica el método de eliminación de Gauss para transformar una matriz en su forma escalonada.
+    
+    Parámetros:
+    - matriz: Matriz de coeficientes (numpy array de tamaño n x n).
+    
+    Retorna:
+    - La matriz transformada en forma escalonada.
+    """
+    n = matriz.shape[0]
+    A = np.array(matriz, dtype=float)
+
+    # Eliminación hacia adelante
+    for i in range(n):
+        # Verificar si el pivote es cero
+        if A[i, i] == 0:
+            # Buscar una fila para intercambiar
+            for k in range(i + 1, n):
+                if A[k, i] != 0:
+                    A[[i, k]] = A[[k, i]]  # Intercambiar filas
+                    break
+            else:
+                raise ValueError("El sistema no tiene solución única (pivote cero).")
+        
+        # Normalizar la fila actual dividiendo por el pivote
+        for j in range(i + 1, n):
+            factor = A[j, i] / A[i, i]
+            A[j, i:] -= factor * A[i, i:]
+
+    return A
+
+
+ # Ejemplo con la matriz problemática
+matriz = np.array([
+    [1, 2, 3, 4],
+    [0, 1, 2, 4],
+    [2, 3, 4, 5],
+    [2, 0, 1, 2]
+])
+
+resultado = gauss_eliminacion_solo_matriz(matriz)
+print("\nResultado final:")
+print(resultado)
